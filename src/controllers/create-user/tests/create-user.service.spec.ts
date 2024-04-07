@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { CreateUserService } from './create-user.service';
+import { CreateUserService } from '../create-user.service';
 
 describe('CreateUserService', () => {
   let service: CreateUserService;
@@ -9,7 +9,7 @@ describe('CreateUserService', () => {
       providers: [CreateUserService],
     }).compile();
 
-    service = module.get<CreateUserService>(CreateUserService);
+    service = module.get<CreateUserService>(CreateUserService) as CreateUserService;
   });
 
   it('should be defined', () => {

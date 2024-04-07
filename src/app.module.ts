@@ -1,11 +1,19 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { CreateUserModule } from './controllers/create-user/create-user.module';
+import { PostgresSqlModule } from "./dataBase/postgres-sql-module";
+import { DataSource } from "typeorm";
+import { ConfigModule } from "@nestjs/config";
+import { UserAuthorizationModule } from './controllers/user-authorization/user-authorization.module';
 
 @Module({
-  imports: [CreateUserModule],
-  controllers: [AppController],
-  providers: [AppService],
+  imports: [
+    ConfigModule.forRoot(),
+    PostgresSqlModule.create(),
+    CreateUserModule,
+    UserAuthorizationModule,
+  ],
 })
-export class AppModule {}
+export class AppModule {
+  constructor(private dataSource: DataSource) {
+  }
+}
