@@ -20,9 +20,9 @@ export class UserAuthorizationService {
     });
     if(!user || !await user.comparePassword(credentials.password))
       throw new AuthBadRequestException();
-    const payload = { sub: user.id, email: user.email };
+    const payload = { id: user.id, email: user.email };
     return {
-      accessToken: await this.jwtService.signAsync(payload),
+      accessToken: `Bearer ${await this.jwtService.signAsync(payload)}`,
     };
   }
 }

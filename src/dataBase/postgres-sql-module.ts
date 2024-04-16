@@ -12,6 +12,7 @@ export class PostgresSqlModule{
       entities: ["./dataBase/models/*.entity.ts"],
       synchronize: true,
       autoLoadEntities : true
+
     })
   }
   static createTestModule(){

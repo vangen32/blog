@@ -12,9 +12,13 @@ export class CreateUserService {
   ) {}
   async create(createUserDto: CreateUserDto) {
     await this.userRepository.save(this.userRepository.create(createUserDto))
-    return ;
+    return;
   }
   async getAll(){
-    return await this.userRepository.find();
+    return await this.userRepository.find({
+        select: {
+          password: false
+        }
+      });
   }
 }

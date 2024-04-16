@@ -5,6 +5,7 @@ import { CreateUserModule } from "../controllers/create-user/create-user.module"
 import { PostgresSqlModule } from "../dataBase/postgres-sql-module";
 import { Repository } from "typeorm";
 import { UserEntity } from "../dataBase/models/user.entity";
+import { AppModule } from "../app.module";
 
 describe('CreateUserService', () => {
   let app : INestApplication;
@@ -12,21 +13,20 @@ describe('CreateUserService', () => {
 
   beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports : [CreateUserModule, PostgresSqlModule.createTestModule()]
+      imports : [AppModule, PostgresSqlModule.createTestModule()]
     }).compile();
     app = module.createNestApplication();
     await app.init();
     repository = module.get('UserEntityRepository')
   });
 
-  afterEach(async ()=>{
-    await repository.clear()
-  })
-
   it("should init app", function() {
     expect(app).toBeDefined();
   });
 
+  it("it should create user", async ()=>{
+
+  })
 
   it('should return an array of users', async () => {
     const arr = [

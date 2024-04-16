@@ -9,6 +9,7 @@ import ENV from "../../helpers/ENV";
 @Module({
   imports : [TypeOrmModule.forFeature([UserEntity]),
     JwtModule.register({
+      global : true,
       signOptions: { expiresIn: '5m' },
       secretOrKeyProvider : ()=>ENV.JwtSecret
     }),
