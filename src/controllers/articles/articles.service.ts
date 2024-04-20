@@ -25,7 +25,8 @@ export class ArticlesService {
       skip : page*limit,
       take : limit,
       relations : {
-        tags : true
+        tags : true,
+        author : true
       }
     });
     if(articles.length <= 0)
@@ -62,7 +63,7 @@ export class ArticlesService {
 
   async findByTag(tag : string, page : number, limit : number)  : Promise<ArticleEntity[]>{
     const articles = this.articlesRepository.createQueryBuilder('article')
-      .innerJoin('article.tags', 'tag', 'tag.tag = :tag', { tag }) // Внутрішнє з'єднання з тегами, що містять вказаний тег
+      .innerJoin('article.tags', 'tag', 'tag.tag = :tag', { tag })
       .leftJoinAndSelect('article.tags', 'allTags')
       .leftJoinAndSelect('article.author', 'author')
       .skip(page*limit)
@@ -91,7 +92,7 @@ export class ArticlesService {
     const tags = await this.tagRepository.findBy({
       tag : In(tagList)
     })
-    const notExistingTags = tagList.filter((x=>!tags.some(y=>y.tag === x))).map(x=>({tag : x}));
+    const notExistingTags = tagList.filter((x=>!tags.some(y=>y.tag == x))).map(x=>({tag : x}));
     const createdTags = await this.tagRepository.save(notExistingTags);
     return [...tags, ...createdTags] as TagEntity[]
   }

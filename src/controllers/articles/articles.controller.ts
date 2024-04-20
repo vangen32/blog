@@ -36,6 +36,7 @@ export class ArticlesController {
 
   @Get("/all")
   @ApiQuery({ name: 'limit', required: false, type: Number })
+  @UseInterceptors(ArticleToDtoListInterceptor)
    findAll(@Query("page") page : number = 0, @Query("limit") limit : number = 10){
     return this.articlesService.findAll(page, limit);
   }

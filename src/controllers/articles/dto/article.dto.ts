@@ -12,7 +12,7 @@ export class ArticleDto{
   static GetInstance(obj : ArticleEntity){
     return {
       ...obj,
-      author : UserDto.GetInstance(obj.author)
+      author : UserDto.GetInstanceMini(obj.author)
     }
   }
 }

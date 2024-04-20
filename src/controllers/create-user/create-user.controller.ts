@@ -1,4 +1,14 @@
-import { Controller, Post, Body, Get, UseFilters, UseInterceptors, UseGuards } from "@nestjs/common";
+import {
+  Controller,
+  Post,
+  Body,
+  Get,
+  UseFilters,
+  UseInterceptors,
+  UseGuards,
+  HttpCode,
+  HttpStatus, Param, Delete
+} from "@nestjs/common";
 import { CreateUserService } from './create-user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { ApiTags } from "@nestjs/swagger";
@@ -8,6 +18,7 @@ import { UserEntity } from "../../dataBase/models/user.entity";
 import { UserListInterceptor } from "./interceptors/user-list-interceptor";
 import { AuthGuard } from "../../global/authGuard/authorization-guard";
 import { Public } from "../../global/authGuard/decoretors";
+import supertest from "supertest";
 
 @ApiTags("User registration")
 @Public()
@@ -17,6 +28,7 @@ export class CreateUserController {
 
   @Post("create")
   @UseFilters(new HttpUserCreateBadRequestFilter())
+  @HttpCode(HttpStatus.CREATED)
   create(@Body(new UserCreateValidationPipe()) createCreateUserDto: CreateUserDto) {
     return this.createUserService.create(createCreateUserDto);
   }
@@ -24,8 +36,14 @@ export class CreateUserController {
 
   @Get("/all")
   @UseInterceptors(UserListInterceptor)
-  @UseGuards(AuthGuard)
   async findAll() : Promise<UserEntity[]>{
     return  await this.createUserService.getAll();
+  }
+
+  @Delete("delete/:id")
+  @HttpCode(HttpStatus.NO_CONTENT)
+  async deleteUser(@Param('id') id : number){
+    await this.createUserService.deleteUser(id)
+    return;
   }
 }

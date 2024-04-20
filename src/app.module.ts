@@ -10,7 +10,8 @@ import { ArticlesModule } from './controllers/articles/articles.module';
 @Module({
   imports: [
     ConfigModule.forRoot(),
-    PostgresSqlModule.create(),
+    PostgresSqlModule.create({ testEnvironment: process.env.NODE_ENV === 'test' }),
+    //PostgresSqlModule.createProductionModule(),
     CreateUserModule,
     UserAuthorizationModule,
     AuthGuardModule,

@@ -15,4 +15,12 @@ export class UserDto implements IUserDto{
     return userEntity as UserDto;
   }
 
+  static GetInstanceMini(userEntity : UserEntity){
+    return userEntity ?  {
+      id : userEntity.id,
+      name : userEntity.name,
+      lastname : userEntity.lastname
+    } : null;
+  }
+
 }

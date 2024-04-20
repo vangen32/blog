@@ -10,10 +10,11 @@ export class ArticleEntity{
   @Column()
   content : string
 
-  @ManyToOne(() => UserEntity, user => user.id)
+  @ManyToOne(() => UserEntity, user => user.id,
+    {onDelete : "SET NULL", nullable: true})
   author : UserEntity
 
-  @ManyToMany(() => TagEntity)
+  @ManyToMany(() => TagEntity, { onDelete: 'CASCADE' })
   @JoinTable()
   tags : TagEntity[]
 

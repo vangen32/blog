@@ -7,7 +7,7 @@ export class UserEntity {
   @PrimaryGeneratedColumn()
   id : number
   @Index()
-  @Column()
+  @Column({unique : true})
   email : string
   @Column()
   name : string
@@ -19,7 +19,9 @@ export class UserEntity {
   @Column()
   password : string
 
-  @OneToMany(() => ArticleEntity, (article) => article.author)
+  @OneToMany(() => ArticleEntity,
+    (article) => article.author,
+    { cascade: true, onDelete: 'SET NULL' })
   userArticles : ArticleEntity[]
 
   @BeforeInsert()
