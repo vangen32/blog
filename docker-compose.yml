@@ -2,15 +2,24 @@ version: '3.8'
 
 services:
   app:
+    container_name: app-p
     build:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "3000:3000"
+      - "5000:3000"
     depends_on:
       - postgres
+    environment:
+      DB_USERNAME: postgres
+      DB_PASSWORD: Asd112233
+      NODE_ENV: production
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: blog
 
   postgres:
+    container_name: db-p
     image: postgres:latest
     restart: always
     environment:
@@ -18,9 +27,13 @@ services:
       POSTGRES_PASSWORD: Asd112233
       POSTGRES_DB: blog
     ports:
-        - "5432:5432"
+        - "5440:5432"
     volumes:
-      - postgres-data:/var/lib/postgresql/data
+      - postgres-data-prod:/var/lib/postgresql/data
+      #- type: tmpfs
+       # target: /var/lib/postgresql/data
+       # tmpfs:
+       #   size: 100m
     expose:
       - 5432
     healthcheck:
@@ -30,4 +43,4 @@ services:
       retries: 5
 
 volumes:
-  postgres-data: {}
+  postgres-data-prod: {}

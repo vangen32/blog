@@ -5,6 +5,7 @@ import { TagEntity } from "./models/tag.entity";
 
 export class PostgresSqlModule{
   static create(options: { testEnvironment?: boolean } = {}) {
+    console.log(process.env.NODE_ENV);
     if (options.testEnvironment) {
       return this.createTestModule();
     } else {
@@ -12,6 +13,7 @@ export class PostgresSqlModule{
     }
   }
   static createProductionModule(){
+    console.log("Prod init");
     return TypeOrmModule.forRoot({
       type: 'postgres',
       host: process.env.DB_HOST,
