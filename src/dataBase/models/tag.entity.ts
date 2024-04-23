@@ -8,6 +8,6 @@ export class TagEntity{
     (article) => article.tags, {onDelete : "CASCADE"})
   id : number
 
-  @Column()
+  @Column({unique : true})
   tag : string
 }

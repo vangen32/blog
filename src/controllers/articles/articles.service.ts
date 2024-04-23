@@ -54,7 +54,7 @@ export class ArticlesService {
       },
       take : limit,
       skip : page * limit,
-      relations : ["tags"]
+      relations : ["tags", "author"]
     })
     if((await articles).length <= 0)
       throw new BadRequestException("No such page exists")
@@ -89,10 +89,12 @@ export class ArticlesService {
   }
 
   private async getTags(tagList : string[]) :  Promise<TagEntity[]>{
+    if(!tagList || tagList.length === 0)
+      return [] as TagEntity[]
     const tags = await this.tagRepository.findBy({
       tag : In(tagList)
     })
-    const notExistingTags = tagList.filter((x=>!tags.some(y=>y.tag == x))).map(x=>({tag : x}));
+    const notExistingTags = tagList.filter((x=>!tags.some(y=>y.tag === x))).map(x=>({tag : x}));
     const createdTags = await this.tagRepository.save(notExistingTags);
     return [...tags, ...createdTags] as TagEntity[]
   }
