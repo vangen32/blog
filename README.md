@@ -58,6 +58,19 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
+## Docker
+
+```bash
+# prod
+$ docker-compose -f docker-compose.yml up -d --build
+
+# test
+$ docker-compose -f docker-compose.test.yml up -d --build
+
+```
+after go to [localhost:5000](http://localhost:5000)
+
+
 
 ## Support
 
